@@ -18,12 +18,34 @@
         navigator.serviceWorker.getRegistrations().then(registrations => {
             if (registrations[0] === undefined) {
                 navigator.serviceWorker.register('/latens/sw.js')
-                .then(() => navigator.serviceWorker.ready)
-                .then(() => {
-                    document.body.innerHTML = `<iframe src="${__$latens$config.prefix}${__$latens$config.encodeURL("https://torproject.org")}" height=100% width=100%></iframe>`;
-                });
             }
         });
 
+
+    function murder() {
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker
+            .getRegistrations()
+            .then((registrations) => {
+                for (let registration of registrations) {
+                registration.unregister();
+                }
+            })
+            .then(() => {window.location.reload()})
+        }
+
+    }
+    function nav(event) {
+        if (event.key == "Enter") {
+            event.preventDefault()
+            document.body.innerHTML = `<iframe src="${__$latens$config.prefix}${__$latens$config.encodeURL(document.getElementById("inputbox").value)}" height=100% width=100%></iframe>`;
+        }
+    }
+
     </script>
+
+    <button onclick="murder()">
+        Restart SW (with changes)
+    </button>
+    <input id="inputbox" onsubmit="nav()" onkeypress="nav(event)"></input>
 </html>

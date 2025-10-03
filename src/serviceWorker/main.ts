@@ -1,4 +1,3 @@
-// @ts-ignore
 import $config from "../config";
 import { BareClient } from "@mercuryworkshop/bare-mux";
 
