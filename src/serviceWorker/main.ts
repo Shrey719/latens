@@ -1,6 +1,8 @@
 import $config from "../config";
+
 import { BareClient } from "@mercuryworkshop/bare-mux";
 
+import { rewriteHTML } from "../rewrite/html/main"
 let client: any;
 const routeLatens = async function (request: any) {
   try {
@@ -20,6 +22,8 @@ const routeLatens = async function (request: any) {
       const mime = response.headers.get("Content-Type") || "";
 
       const headers = new Headers(response.headers);
+
+      // todo: make this less stupid 
       headers.set("X-Frame-Options", "SAMEORIGIN");
       headers.delete("Content-Security-Policy");
       headers.delete("Content-Security-Policy-Report-Only");
@@ -28,8 +32,9 @@ const routeLatens = async function (request: any) {
         mime.includes("text/html") ||
         mime.includes("application/xhtml+xml")
       ) {
-        const text = await response.text();
-        return new Response(text, { headers });
+        let fHTML = await response.text();
+        fHTML = rewriteHTML(fHTML)
+        return new Response(fHTML, { headers });
       }
       if (
         mime.includes("application/javascript") ||
