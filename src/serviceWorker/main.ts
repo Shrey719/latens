@@ -7,6 +7,12 @@ let client: any;
 const routeLatens = async function (request: any) {
   try {
     const url = new URL(request.url);
+    // force through the proxy
+    if (url.hostname != self.location.hostname) {
+      client = new BareClient()
+      console.log(`[SW] fetching leak on ${url.href} with wisp`)
+      return client.fetch(url)
+    }
     if (url.pathname.startsWith($config.prefix)) {
       client = new BareClient();
 
