@@ -2,6 +2,6 @@
 const { __$latens$config } = self;
 
 // rename it so its easier to use internally
-const $config = __$latens$config
+const $config = __$latens$config;
 
-export default $config
+export default $config;

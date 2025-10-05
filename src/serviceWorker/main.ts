@@ -2,16 +2,16 @@ import $config from "../config";
 
 import { BareClient } from "@mercuryworkshop/bare-mux";
 
-import { rewriteHTML } from "../rewrite/html/main"
+import { rewriteHTML } from "../rewrite/html/main";
 let client: any;
 const routeLatens = async function (request: any) {
   try {
     const url = new URL(request.url);
     // force through the proxy
     if (url.hostname != self.location.hostname) {
-      client = new BareClient()
-      console.log(`[SW] fetching leak on ${url.href} with wisp`)
-      return client.fetch(url)
+      client = new BareClient();
+      console.log(`[SW] fetching leak on ${url.href} with wisp`);
+      return client.fetch(url);
     }
     if (url.pathname.startsWith($config.prefix)) {
       client = new BareClient();
@@ -29,7 +29,7 @@ const routeLatens = async function (request: any) {
 
       const headers = new Headers(response.headers);
 
-      // todo: make this less stupid 
+      // todo: make this less stupid
       headers.set("X-Frame-Options", "SAMEORIGIN");
       headers.delete("Content-Security-Policy");
       headers.delete("Content-Security-Policy-Report-Only");
@@ -39,7 +39,7 @@ const routeLatens = async function (request: any) {
         mime.includes("application/xhtml+xml")
       ) {
         let fHTML = await response.text();
-        fHTML = rewriteHTML(fHTML)
+        fHTML = rewriteHTML(fHTML, url);
         return new Response(fHTML, { headers });
       }
       if (
@@ -67,4 +67,4 @@ const routeLatens = async function (request: any) {
 };
 
 // @ts-ignore
-self.routeLatens = routeLatens
+self.routeLatens = routeLatens;

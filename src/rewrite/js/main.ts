@@ -1,5 +1,3 @@
-function rewriteJS() {
-    
-}
+function rewriteJS() {}
 
-export { rewriteJS }
+export { rewriteJS };

@@ -1,5 +1,6 @@
 self.__$latens$config = {
     prefix: "/latens/service/",
+    configUrl: "/latens/config.js",
     clientUrl: "/latens.client.js",
     errorPage: "/index.html",
 
