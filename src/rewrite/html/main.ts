@@ -2,7 +2,7 @@ import { parseDocument, DomUtils } from "htmlparser2";
 import serialize from "dom-serializer";
 
 import $config from "../../config";
-import $lib from "../../lib/main"
+import $lib from "../../lib/main";
 
 function rewriteHTML(input: string, url: any) {
   const origin = $lib.url.strip(url);
