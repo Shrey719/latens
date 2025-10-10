@@ -4,24 +4,27 @@ export default function rewrite(url: string, base: string) {
   if (!url || typeof url !== "string") return url;
 
   const trimmed = url.trim();
+  const lowerCaseTrimmed = trimmed.toLowerCase();
 
-  if (trimmed.toLowerCase().startsWith("javascript:")) {
+  if (lowerCaseTrimmed.startsWith("javascript:")) {
     // TODO - JS rewriting
   }
-  // just skip it
+
+  // skip
   if (
-    trimmed.toLowerCase().startsWith("mailto:") ||
-    trimmed.toLowerCase().startsWith("tel:")
+    lowerCaseTrimmed.startsWith("mailto:") ||
+    lowerCaseTrimmed.startsWith("tel:")
   ) {
     return trimmed;
   }
   if (
     // by the way this is really retarded
-    trimmed.toLowerCase().startsWith("data:") &&
-    !trimmed.toLowerCase().startsWith("data:image/")
+    lowerCaseTrimmed.startsWith("data:") &&
+    !lowerCaseTrimmed.startsWith("data:image/")
   ) {
     return "#";
   }
+  // already rewritten - ignore
   if (trimmed.startsWith($config.prefix)) {
     return trimmed;
   }

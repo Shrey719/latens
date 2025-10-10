@@ -6,4 +6,3 @@ export default function stripProxy(url: any) {
   }
   return $config.decodeURL(url.pathname.slice($config.prefix.length));
 }
-

@@ -3,6 +3,8 @@ import $config from "../config";
 import { BareClient } from "@mercuryworkshop/bare-mux";
 
 import { rewriteHTML } from "../rewrite/html/main";
+import { rewriteJS } from "../rewrite/js/main";
+
 let client: any;
 const routeLatens = async function (request: any) {
   try {
@@ -46,7 +48,8 @@ const routeLatens = async function (request: any) {
         mime.includes("application/javascript") ||
         mime.includes("text/javascript")
       ) {
-        const text = await response.text();
+        let text = await response.text();
+        text = rewriteJS(text)
         return new Response(text, { headers });
       }
 
