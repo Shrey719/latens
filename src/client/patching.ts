@@ -1,5 +1,6 @@
 import $lib from "../lib/main"
 import $config from "../config"
+import { rewriteHTML } from "../rewrite/html/main";
 
 interface patchRegistry {
     elements: Function[];
@@ -13,6 +14,7 @@ function getOrigin(url: any) {
   if (!u.pathname.startsWith($config.prefix)) return false;
   return $config.decodeURL(u.pathname.slice($config.prefix.length));
 }
+
 
 
 // ripped from https://github.com/titaniumnetwork-dev/Corrosion/blob/main/lib/browser/document.js
@@ -91,4 +93,29 @@ registry.forEach((entry) => {
             })
         })
     }
+    if (handler === "delete") {
+
+    }
+    if (handler === "window") {
+
+    }
+    if (handler === "html") {
+
+    }
+})
+
+Element.prototype.getAttribute = new Proxy(Element.prototype.getAttribute, {
+  apply: (target, thisArg, args) => {
+    if (args[0] && thisArg.hasAttribute(`latens-origattr-${args[0]}`)) args[0] = `latens-origattr-${args[0]}`;
+    return Reflect.apply(target, thisArg, args);
+  },
+})
+
+Document.prototype.write = new Proxy(Document.prototype.write, {
+  apply:(target, thisArg, args) => {
+    if (args.length === 1) { 
+      args[0] = rewriteHTML(args[0], location.href);
+      return Reflect.apply(target, thisArg, args);
+    }
+  }
 })

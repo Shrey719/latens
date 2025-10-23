@@ -1,7 +1,7 @@
 const path = require("path");
 
 const clientConfig = {
-  devtool: false, 
+  //devtool: true, 
   name: "client",
   target: "web",
   resolve: {
@@ -30,7 +30,7 @@ const clientConfig = {
 };
 
 const swConfig = {
-  devtool: false, 
+  //devtool: false, 
   resolve: {
     extensions: ['.js', '.mjs', '.jsx', '.ts', '.tsx', '.json'], 
   },

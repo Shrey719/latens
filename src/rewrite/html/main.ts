@@ -4,7 +4,8 @@ import serialize from "dom-serializer";
 import $config from "../../config";
 import $lib from "../../lib/main";
 
-function rewriteHTML(input: string, url: any) {
+function rewriteHTML(input: string, url: any): string {
+  console.log("rewriting HTML with url " + url)
   const origin = $lib.url.strip(url);
   const base = new URL(origin);
   const dom = parseDocument(input);
