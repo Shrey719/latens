@@ -113,7 +113,16 @@ Element.prototype.getAttribute = new Proxy(Element.prototype.getAttribute, {
 
 Document.prototype.write = new Proxy(Document.prototype.write, {
   apply:(target, thisArg, args) => {
-    if (args.length === 1) { 
+    if (args.length >= 1) { 
+      args[0] = rewriteHTML(args[0], location.href);
+      return Reflect.apply(target, thisArg, args);
+    }
+  }
+})
+
+Document.prototype.writeln = new Proxy(Document.prototype.writeln, {
+  apply:(target, thisArg, args) => {
+    if (args.length >= 1) { 
       args[0] = rewriteHTML(args[0], location.href);
       return Reflect.apply(target, thisArg, args);
     }
