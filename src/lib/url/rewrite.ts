@@ -1,4 +1,5 @@
 import $config from "../../config";
+import { rewriteJS } from "../../rewrite/js/main";
 
 export default function rewrite(url: string, base: string) {
   if (!url || typeof url !== "string") return url;
@@ -7,7 +8,8 @@ export default function rewrite(url: string, base: string) {
   const lowerCaseTrimmed = trimmed.toLowerCase();
 
   if (lowerCaseTrimmed.startsWith("javascript:")) {
-    // TODO - JS rewriting
+    // "javascript:" is 11 chars long
+    return "javascript:"+ rewriteJS(url.slice(11))
   }
 
   // skip
